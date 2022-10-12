@@ -57,12 +57,15 @@ class address:
         return f"Address: {self.line1} {self.line2} {self.line3} {self.line4} {self.line5} {self.date} {self.serial}"
 
     def score_address(self):
-        pass
-
-    def find_matching_addresses(self):
+        "Score parsed address given features to chekc"
         pass
 
     def find_address_from_postcode(self):
+        "Find address within tables.csv or key_value.json from a postcode"
+        pass
+
+    def valid(self, address_received):
+        "Check address is valid for the provided document"
         pass
 
 
@@ -72,10 +75,12 @@ class table:
         self.postcodes = []
 
     def calculate_table_count(self):
+        "return count of tables parsed from textract"
         for row in self.rows:
             print(row)
 
     def find_postcodes(self):
+        "find all postcodes within tables.csv"
         postcode_regex = "[A-Z]{1,2}[0-9][A-Z0-9]? [0-9][ABD-HJLNP-UW-Z]{2}"
         for row in self.rows:
             if re.findall(postcode_regex, row):
@@ -92,6 +97,7 @@ class key_value:
         return f"{self.key} - {self.value}"
 
     def postcode(self):
+        "check if key_value parsed from textract is a postcode"
         postcode_regex = "[A-Z]{1,2}[0-9][A-Z0-9]? [0-9][ABD-HJLNP-UW-Z]{2}"
         if re.findall(postcode_regex, self.key):
             self.postcode = self.key
@@ -99,6 +105,14 @@ class key_value:
         if re.findall(postcode_regex, self.value):
             self.postcode = self.value
             return self.value.lower()
+
+
+
+
+
+
+# utlities 
+
 
 
 
@@ -244,6 +258,7 @@ def find_features(features: list = None, entities=None):
 
     keys = [x.lower().rstrip(": ") for x in list(entities.keys())]
     values = [x.lower() for x in list(entities.values())]
+    
     # values = [item[0].lower().rstrip() for item in values_lists]
 
     search_arr = [feature.lower() for feature in features]
