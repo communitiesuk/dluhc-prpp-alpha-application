@@ -24,12 +24,13 @@ class pdf:
         self.key_values = key_values
 
 
-class entity:
-    def __init__(self, text):
-        self.text = text
+class Entity:
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
 
     def __str__(self):
-        return f"Entity: {self.text}"
+        return f"Entity: {self.key}:{self.value}"
 
     def lower(self):
         return self.lower()
@@ -39,6 +40,13 @@ class entity:
 
     def score_entity(self):
         pass
+
+    def postcode(self):
+        postcode_regex = re.compile("[A-Z]{1,2}[0-9][A-Z0-9]? [0-9][ABD-HJLNP-UW-Z]{2}")
+        if bool(postcode_regex.match(self.value.upper())) == True:
+            self.postcode = self.value.lower().rstrip(" ")
+            return True
+        return False
 
 
 class address:
@@ -56,7 +64,7 @@ class address:
     def __str__(self):
         return f"Address: {self.line1} {self.line2} {self.line3} {self.line4} {self.line5} {self.date} {self.serial}"
 
-    def score_address(self):
+    def calculate_score(self):
         "Score parsed address given features to chekc"
         pass
 
@@ -107,13 +115,7 @@ class key_value:
             return self.value.lower()
 
 
-
-
-
-
-# utlities 
-
-
+# utlities
 
 
 def score_features(keys, values):
@@ -241,36 +243,25 @@ def calculate_confidence_score(search_arr: list = None, keys=None, values=None):
 def find_features(features: list = None, entities=None):
     """
     Takes in a list of features and returns if a match is found with the entities returned from Textract
-
     Features should be provided in a list.
     features_list = ["Landlord Home Owner Gas Safety Record", "Landlord Gas Safety Record"]
-
     Entities should be provided in key, value dict
     {'Signature: ': ['ppl '], 'Engineer name: ': ['William Shakespeare '], 'Gas safe card ID: ': ['4087820 ']}
-
     """
-
     key_matches = False
     values_matches = False
-
     print("features", features)
     print("entities", entities)
-
     keys = [x.lower().rstrip(": ") for x in list(entities.keys())]
     values = [x.lower() for x in list(entities.values())]
-    
     # values = [item[0].lower().rstrip() for item in values_lists]
-
     search_arr = [feature.lower() for feature in features]
-
     # key matches
     if any(x in search_arr for x in keys):
         key_matches = True
-
     # value matches
     if any(x in search_arr for x in values):
         values_matches = True
-
     if key_matches or values_matches:
         score = calculate_confidence_score(search_arr, keys, values)
         return score
@@ -294,51 +285,27 @@ def find_address_from_postcode(entities, postcode):
     return None
 
 
-def find_postcodes(clean_entities):
-    postcodes = []
-    for element in clean_entities:
-        element = element.upper()
-        postcode = re.findall(
-            "[A-Z]{1,2}[0-9][A-Z0-9]? [0-9][ABD-HJLNP-UW-Z]{2}", element
-        )
-        postcodes.append(postcode)
-    found_postcodes = list(filter(None, postcodes))
-    print(found_postcodes)
-    return found_postcodes
-
-
 def validate_address(address_parsed, received_address):
     address_score = 0
-    if received_address["line2"] in address_parsed:
+    check = None
+    print("Address check:", address_parsed, received_address)
+    if received_address.line5 in address_parsed:
+        print("FOUND POSTCODE")
+        address_score += 60
+    if received_address.line2 in address_parsed:
         print("FOUND TOWN")
         address_score += 20
-    if received_address["line1"] in address_parsed:
+    if received_address.line1 in address_parsed:
         print("FOUND FIRST LINE")
         address_score += 60
-    return address_score
+    if not received_address.date in address_parsed:
+        check = True
+    if not received_address.serial in address_parsed:
+        check = True
+    return {"address_score": address_score, "check": check}
 
 
-def format_postcode_list(postcodes):
-    print(postcodes)
-    if type(postcodes) == list and type(postcodes[0]) == list:
-        postcodes = ["".join(x).lower() for x in postcodes]
-    if type(postcodes[0]) == list:
-        postcodes = postcodes[0].lower()
-    return postcodes
-
-
-def parse_address_from_postcode(entities, postcodes, received_address):
-    address_list = []
-    postcodes = format_postcode_list(postcodes)
-
-    for postcode in postcodes:
-        parsed_address = find_address_from_postcode(entities, postcode)
-        address_list.append(parsed_address)
-    print("ADDRESSES FOUND", address_list)
-    return address_list
-
-
-def score_address(entities, received_address):
+def score_address(entities, address_received):
     address_list = []
     postcodes = []
     address_score = 0
@@ -354,29 +321,110 @@ def score_address(entities, received_address):
     postcodes = find_postcodes(search_entities)
     # find addresses
     parsed_address = parse_address_from_postcode(
-        search_entities, postcodes, received_address
+        search_entities, postcodes
     )
-
-    print("Parsed address", parsed_address)
 
     # score addresses
     if parsed_address:
         for address in parsed_address:
-            address_score = validate_address(address, received_address)
-            print("ADDRESS SCORE", address, address_score)
+            address_score = validate_address(address, address_received)
+            print("ADDRESS SCORE", address, address_score["address_score"], address_score["check"])
     # find match
     return address_score
+
+
+def calculate_address_score(addresses, address_received):
+    score = 0
+    if len(addresses) > 1:
+        if address.postcode == address.parsed_postcode:
+            score += 60
+
+        if address.town == address.parsed_town:
+            score += 20
+
+        if address.first_line == address.first_line:
+            score += 60
+
+        if not address.date:
+            score = 0
+
+        if address.date > 1:
+            score = 0
+
+        if not address.serial:
+            score = 0
+
+
+def find_postcodes(clean_entities):
+    postcodes = []
+    for element in clean_entities:
+        element = element.upper()
+        postcode = re.findall(
+            "[A-Z]{1,2}[0-9][A-Z0-9]? [0-9][ABD-HJLNP-UW-Z]{2}", element
+        )
+        postcodes.append(postcode)
+    found_postcodes = list(filter(None, postcodes))
+    print("Found postcodes", found_postcodes)
+    return found_postcodes
+
+
+def parse_address_from_postcode(entities, postcodes):
+    address_list = []
+    postcodes = format_postcode_list(postcodes)
+    for postcode in postcodes:
+        parsed_address = find_address_from_postcode(entities, postcode)
+        address_list.append(parsed_address)
+    print("ADDRESSES FOUND", address_list)
+    return address_list
+
+
+def format_postcode_list(postcodes):
+    print(postcodes)
+    if type(postcodes) == list and type(postcodes[0]) == list:
+        postcodes = ["".join(x).lower() for x in postcodes]
+    if type(postcodes[0]) == list:
+        postcodes = postcodes[0].lower()
+    return postcodes
 
 
 def lambda_handler(event, context):
     print("Event", event)
 
+    # INPUTS
     job_id = event["Payload"]["job_id"]
     job_tag = event["Payload"]["job_tag"]
     bucket = event["Payload"]["bucket"]
     temp_folder = event["Payload"]["folder"]
-    key_value_list = ""
+    entity_list = []
     table = ""
+
+    address_received = {
+        "line1": "flat 8",
+        "line2": "60 sherwood park road",
+        "line3": "sutton",
+        "line4": "surrey",
+        "line5": "sm1 2sg",
+        "date": "10/01/2022",
+        "serial": "123456",
+    }
+
+    # "Example Address received from form stored as json in s3 bucket"
+
+    # Address line 1 = House number and street name
+    # Address line 2 = area or village name
+    # Address line 3 = Major town
+    # Address line 4 = County
+    # Address line 5 = Post Code
+
+    address_received = address(
+        address_received["line1"],
+        address_received["line2"],
+        address_received["line3"],
+        address_received["line4"],
+        address_received["line5"],
+        address_received["date"],
+        address_received["serial"],
+    )
 
     received_event = event_obj(event, job_id, job_tag, bucket, temp_folder)
     print(received_event)
@@ -385,21 +433,28 @@ def lambda_handler(event, context):
     file_content = s3_client.get_object(Bucket=bucket, Key=object_key)["Body"].read()
     print(json.loads(file_content))
     entities = json.loads(file_content)
-    clean_entities = {
-        k.rstrip(": ").lower(): v[0].rstrip().lower() for k, v in entities.items()
-    }
+    clean_entities = {k.rstrip(": ").lower(): v[0].rstrip().lower() for k, v in entities.items()}
 
+    # get entities
+    for k, v in entities.items():
+        k = k.lower().rstrip(": ")
+        if len(v) > 1:
+            for value in v:
+                new_entity = Entity(k, value)
+                entity_list.append(new_entity)
+        else:
+            new_entity = Entity(k, v[0])
+            entity_list.append(new_entity)
+
+    # get tables
     table_key = f"{temp_folder}/{job_tag}/tables.csv"
     table_content = s3_client.get_object(Bucket=bucket, Key=table_key)["Body"].read()
-
     print(table_content)
 
-    parsed_pdf = pdf(table_content, clean_entities)
-
-    print(parsed_pdf)
+    # convert tables to dataframes
+    # TBD
 
     # features list should be provided via json uploaded to s3 / edited by API Request for future
-
     features_list_1 = [
         "Landlord Home Owner Gas Safety Record",
         "Landlord Gas Safety Record",
@@ -547,44 +602,14 @@ def lambda_handler(event, context):
         + features_list_23
         + features_list_24
     )
+
+    # find features
     features_found = find_features(features_list, clean_entities)
 
-    # "Example Address received from form stored as json in s3 bucket"
-
-    # Address line 1 = House number and street name
-    # Address line 2 = area or village name
-    # Address line 3 = Major town
-    # Address line 4 = County
-    # Address libe 5 = Post Code
-
-    # doi - date of issue
-    # date present
-    # less than || equal to one year old
-
-    # serial_number
-
-    # flag if not found
-
-    address_received = {}
-    address_received["line1"] = "flat 8"
-    address_received["line2"] = "60 sherwood park road"
-    address_received["line3"] = "sutton"
-    address_received["line4"] = "surrey"
-    address_received["line5"] = "sm1 2sg"
-    address_received["date"] = "10/01/2022"
-    address_received["serial"] = "123456"
-
-    address_1 = address(
-        address_received["line1"],
-        address_received["line2"],
-        address_received["line3"],
-        address_received["line4"],
-        address_received["line5"],
-        address_received["date"],
-        address_received["serial"],
-    )
-
+    print("Received Address", address_received)
     address_score = score_address(entities, address_received)
+
+    # OUTPUTS
 
     if features_found == None:
         return {
@@ -606,5 +631,6 @@ def lambda_handler(event, context):
         "entities": clean_entities,
         "featuresFound": features_found["keys_found"] + features_found["values_found"],
         "confidence": features_found["score"],
-        "address_score": address_score,
+        "address_score": address_score["address_score"],
+        "address_check": address_score["check"]
     }

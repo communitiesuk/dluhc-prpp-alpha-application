@@ -1,0 +1,115 @@
+[
+	[
+		"Landlord Home Owner Gas Safety Record",
+		"Landlord Gas Safety Record",
+		"Homeowner Gas Safety Record",
+		"Landlord Safety Record",
+		"Gas Safety Record",
+		"Domestic Landlord Gas Safety Record",
+		"Domestic Homeowner Gas Safety Record",
+		"Gas Safety Record",
+		"Gas safe ID",
+		"Gas Safe Reg No",
+		"Gas Safe",
+		"Gas Safe Card Id"
+	],
+	[
+		"ID Card No",
+		"Engineer ID No",
+		"",
+		"Gas Safe Register ID Card No",
+		"Gas Safe License"
+	],
+	["Location", "Appliance Location", "Appliance Type", "Type"],
+	[
+		"Make/Model",
+		"Make",
+		"Model",
+		"Manufacturer",
+		"Appliance Make",
+		"Appliance Model"
+	],
+	["Flue Type", "Chimney Type", "Chimney/Flue Type", "Type of Flue"],
+	["Landlords appliance", "Landlord's Appliance", "Owned by Landlord"],
+	["Appliance Insp", "Appliance Inspected"],
+	[
+		"Combustion analyser reading",
+		"Initial Combustion Analyser Reading/Final Combustion Analyser Reading",
+		"Initial Combustion Analyser Reading"
+	],
+	[
+		"Operating pressure or heat input",
+		"Operating Pressure mbar or Heat Input",
+		"Operating Pressure (mbars) or heat input (kW/h)",
+		"Operating Pressure in mbar and or Heat Input in KW/Btu/h"
+	],
+	[
+		"Safety device(s) correct operation",
+		"Safety devices operating correctly",
+		"Safety device(s) working correctly",
+		"Are Safety Devices Working"
+	],
+	["Ventilation provision satisfactory", "Satisfactory ventilation"],
+	[
+		"Visual condition of the flue & termination satisfactory",
+		"Visual Condition of Chimney and Termination Satisfactory",
+		"Visual condition of flue & termination",
+		"Chimney termination & condition satisfactory",
+		"Flue Visual Condition"
+	],
+	[
+		"Flue performance checks",
+		"Chimney Performance Test",
+		"Flue operation checks",
+		"Flue Performance Check"
+	],
+	[
+		"Appliance serviced",
+		"Appliance Service Completed",
+		"Was appliance serviced",
+		"Appliance serviced during visit"
+	],
+	[
+		"Appliance safe to use",
+		"Is appliance safe to use",
+		"Appliance safe for continued use"
+	],
+	[
+		"Approved CO alarm fitted",
+		"CO alarm fitted and working",
+		"Approved CO detector(s) installed"
+	],
+	["Is CO alarm in date", "CO Detector(s) within service date"],
+	[
+		"Testing of CO alarm satisfactory",
+		"CO detector(s) test function operated",
+		"Does the CO Alarm Work"
+	],
+	["Number of appliances tested"],
+	[
+		"Gas installation pipework (visual inspection) satisfactory?",
+		"Gas installation pipe work satisfactory visual inspection",
+		"Satisfactory visual inspection of gas installation pipework",
+		"Gas pipework visual condition satisfactory",
+		"Satisfactory Visual Condition"
+	],
+	[
+		"Gas tightness test satisfactory?",
+		"Outcome of gas tightness test",
+		"Gas pipework tightness tested",
+		"Satisfactory Gas Tightness Test"
+	],
+	[
+		"Emergency control valve accessible?",
+		"Is the emergency control accessible",
+		"Emergency Control Accessible"
+	],
+	[
+		"Protective equipotential bonding satisfactory?",
+		"Equipotential bonding satisfactory",
+		"Is the main protective equipotential bonding satisfactory",
+		"Presence of protective bonding",
+		"Equipotential Bonding Satisfactory"
+	],
+	["Audible carbon monoxide alarm fitted?"]
+]
