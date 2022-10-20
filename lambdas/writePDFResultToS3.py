@@ -198,8 +198,9 @@ def get_rows_columns_map(table_result, blocks_map):
 
                         # get the text value
                         rows[row_index][col_index] = get_text(cell, blocks_map)
-                except KeyError:
+                except KeyError as e:
                     print("Error extracting Table data - {}:".format(KeyError))
+                    print(e)
                     pass
     return rows
     
@@ -216,8 +217,9 @@ def get_text(result, blocks_map):
                         if word['BlockType'] == 'SELECTION_ELEMENT':
                             if word['SelectionStatus'] == 'SELECTED':
                                 text += 'X '
-                    except KeyError:
+                    except KeyError as e:
                         print("Error extracting Table data - {}:".format(KeyError))
+                        print(e)
 
     return text
 
@@ -242,6 +244,7 @@ def lambda_handler(event, context):
     to_json = {'Document': filename, 'ExtractedAnalysis': analysis, 'TextractJobId': job_id}
     json_content = json.dumps(to_json).encode('UTF-8')
     output_file_name = filename.split('/')[-1].rsplit('.', 1)[0] + '.json'
+    document_type = filename.split('/')[1].rsplit('.', 1)[0]
     # response = s3_bucket.Object(f'textract_temp/{job_tag}/{output_file_name}').put(Body=bytes(json_content))
     response = s3_bucket.Object(f'textract_temp/{job_tag}/textract_output.json').put(Body=bytes(json_content))
 
@@ -261,6 +264,7 @@ def lambda_handler(event, context):
         "job_tag": job_tag,
         "bucket": bucket,
         "folder": S3_TEMP_FOLDER,
+        "document_type": document_type,
         "json_text": "textract_output.json",
         "key_value_list": "key_value_list.json",
         "table": "tables.csv",

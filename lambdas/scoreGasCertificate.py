@@ -124,6 +124,7 @@ def score_features(keys, values):
 
     score = 0
     contributing_score = 0
+    total_possible_score = 0
 
     # score calculation, calculate score after by removing found values
     simple_search = []
@@ -176,6 +177,7 @@ def score_features(keys, values):
             simple_search_score += 25
         elif "safety record" in item:
             simple_search_score += 25
+        total_possible_score += 50
 
         if "gas safety (installation and use) regulations" in item:
             simple_search.remove("gas safety (installation and use) regulations")
@@ -183,6 +185,7 @@ def score_features(keys, values):
         elif "installation and use" in item:
             simple_search.remove("installation and use")
             simple_search_score += 25
+        total_possible_score += 50
 
     if len(contributing_search) == 1:
         contributing_score = 10
@@ -192,9 +195,9 @@ def score_features(keys, values):
         contributing_score = 50
     else:
         contributing_score = 0
+    total_possible_score += 50
 
     total_score = simple_search_score + contributing_score
-    total_possible_score = 150
     overall = total_score / total_possible_score * 100
 
     score = {"total": total_score, "max": total_possible_score, "overall": overall}
@@ -320,15 +323,18 @@ def score_address(entities, address_received):
     # find postcodes
     postcodes = find_postcodes(search_entities)
     # find addresses
-    parsed_address = parse_address_from_postcode(
-        search_entities, postcodes
-    )
+    parsed_address = parse_address_from_postcode(search_entities, postcodes)
 
     # score addresses
     if parsed_address:
         for address in parsed_address:
             address_score = validate_address(address, address_received)
-            print("ADDRESS SCORE", address, address_score["address_score"], address_score["check"])
+            print(
+                "ADDRESS SCORE",
+                address,
+                address_score["address_score"],
+                address_score["check"],
+            )
     # find match
     return address_score
 
@@ -433,7 +439,9 @@ def lambda_handler(event, context):
     file_content = s3_client.get_object(Bucket=bucket, Key=object_key)["Body"].read()
     print(json.loads(file_content))
     entities = json.loads(file_content)
-    clean_entities = {k.rstrip(": ").lower(): v[0].rstrip().lower() for k, v in entities.items()}
+    clean_entities = {
+        k.rstrip(": ").lower(): v[0].rstrip().lower() for k, v in entities.items()
+    }
 
     # get entities
     for k, v in entities.items():
@@ -632,5 +640,5 @@ def lambda_handler(event, context):
         "featuresFound": features_found["keys_found"] + features_found["values_found"],
         "confidence": features_found["score"],
         "address_score": address_score["address_score"],
-        "address_check": address_score["check"]
+        "address_check": address_score["check"],
     }

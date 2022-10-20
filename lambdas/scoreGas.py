@@ -7,8 +7,10 @@ from collections import defaultdict
 
 s3_client = boto3.client("s3")
 
+# CONST
 
-# utils
+
+# UTILS
 def flatten(list_of_lists):
     if len(list_of_lists) == 0:
         return list_of_lists
@@ -48,6 +50,8 @@ class PDF:
         self.split_tables = []
         self.valid_date = None
         self.valid_serial = None
+        self.feature_score = None
+        self.address_score = None
 
     def get_tables(self, object_key, received_event):
         temp_folder = received_event.temp_folder
@@ -196,7 +200,8 @@ class PDF:
         self.table_text = table_text
 
         split_tables = [l.split("table: ") for l in table_text.split("table: ")]
-        split_tables.remove([""])
+        if [""] in split_tables:
+            split_tables.remove([""])
 
         self.split_tables = split_tables
 
@@ -311,6 +316,9 @@ class PDF:
 
         print("SCORE", self.feature_score)
 
+    def calculate_eicr_feature_score(self):
+        pass
+
     def calculate_address_score(self):
         keys = self.keys
         values = self.values
@@ -318,13 +326,17 @@ class PDF:
         tables = self.table_text
         split_tables = self.split_tables
         full_text = flatten(split_tables) + text
+        valid_date = None
 
         addresses = self.addresses
         address_received = self.address_received
         address_score_list = []
         address_type = None
 
-        if len(self.addresses) == 1:
+        if len(self.addresses) == 0:
+            address_type = "false"
+            print("No addresses found")
+        elif len(self.addresses) == 1:
             address_type = "single"
             print("Single addresses found")
         else:
@@ -347,6 +359,7 @@ class PDF:
         self.address_score = address_score_list
 
     def check_date(self):
+        valid_date = None
         for date in self.dates:
             date = "".join(date)
             date = datetime.datetime.strptime(date, "%d%m%Y").date()
@@ -493,6 +506,7 @@ def lambda_handler(event, context):
     job_tag = event["Payload"]["job_tag"]
     bucket = event["Payload"]["bucket"]
     temp_folder = event["Payload"]["folder"]
+    document_type = event["Payload"]["document_type"]
     entity_list = []
     table = ""
 
@@ -532,6 +546,8 @@ def lambda_handler(event, context):
     textract_data = None
 
     document = PDF(textract_data, table_content, entities)
+    print("Content", table_content)
+    print("Entities", entities)
 
     document.date_issued = None
 
@@ -559,14 +575,22 @@ def lambda_handler(event, context):
 
     # features
     print("Getting features")
-    with open("features_GAS.json") as file:
-        data = json.load(file)
-        document.get_features(data)
+    if document_type == "gas":
+        with open("features_GAS.json") as file:
+            data = json.load(file)
+            document.get_features(data)
+    if document_type == "eicr":
+        with open("features_EICR.json") as file:
+            data = json.load(file)
+            document.get_features(data)
     print(document.features)
 
     # feature score
     print("Calculating feature score")
-    document.calculate_feature_score()
+    if document_type == "gas":
+        document.calculate_feature_score()
+    if document_type == "eicr":
+        document.calculate_eicr_feature_score()
 
     # address score
     print("Calculating address score")
@@ -591,6 +615,9 @@ def lambda_handler(event, context):
 
     output = {
         "statusCode": 200,
+        "job_id": job_id,
+        "job_tag": job_tag,
+        "document_type": document_type,
         "features": document.features,
         "postcodes": document.postcodes,
         "addresses": document.addresses,

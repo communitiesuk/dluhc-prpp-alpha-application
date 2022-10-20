@@ -18,3 +18,8 @@ serial check
 #### 0.0.6
 GovUK Templates
 Flask Initialisation
+
+#### 0.0.7
+EICR Feature score
+Document Type
+
