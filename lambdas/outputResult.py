@@ -27,7 +27,7 @@ def lambda_handler(event, context):
     valid_serial = event.get("valid_serial")
     rules = event.get("rules")
 
-    if event[0]["statusCode"] == 400:
+    if event["statusCode"] == 400:
         document_type = "check"
         return {
             "statusCode": 400,
