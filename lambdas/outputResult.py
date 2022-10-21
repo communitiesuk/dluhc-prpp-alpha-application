@@ -14,18 +14,18 @@ s3_bucket = boto3.resource("s3").Bucket("dluhc-prpp-alpha-5472-certificate-testi
 
 def lambda_handler(event, context):
     print(event)
-    job_id = event[0].get("job_id")
-    job_tag = event[0].get("job_tag")
-    document_type = event[0].get("document_type")
-    features = event[0].get("features")
-    postcodes = event[0].get("postcodes")
-    addresses = event[0].get("addresses")
-    feature_score = event[0].get("feature_score")
-    address_score = event[0].get("address_score")
-    dates = event[0].get("dates")
-    valid_date = event[0].get("valid_date")
-    valid_serial = event[0].get("valid_serial")
-    rules = event[0].get("rules")
+    job_id = event.get("job_id")
+    job_tag = event.get("job_tag")
+    document_type = event.get("document_type")
+    features = event.get("features")
+    postcodes = event.get("postcodes")
+    addresses = event.get("addresses")
+    feature_score = event.get("feature_score")
+    address_score = event.get("address_score")
+    dates = event.get("dates")
+    valid_date = event.get("valid_date")
+    valid_serial = event.get("valid_serial")
+    rules = event.get("rules")
 
     if event[0]["statusCode"] == 400:
         document_type = "check"
