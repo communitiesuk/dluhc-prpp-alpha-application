@@ -13,6 +13,7 @@ __pycache__
 .env
 .env.int
 .env.dev
+.env.prod
 .env.test
 .history
 
@@ -23,3 +24,6 @@ __pycache__
 
 todo.md
 notes.md
+
+keys/
+idam/flask_session

@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "fe79a4e3-8e69-46bf-a77d-4f6b792b2990",
+		"name": "PRPP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12981747"
+	},
+	"item": [
+		{
+			"name": "Authorize",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{authorize_endpoint}}?response_type=code&scope=openid email phone&client_id={{client_id}}&state=STATE&redirect_uri=https%3A%2F%2Fprpp-alpha.labs.zaizicloud.net%2Fredirect&nonce=aEwkamaos5Be&ui_locales=en",
+					"host": [
+						"{{authorize_endpoint}}"
+					],
+					"query": [
+						{
+							"key": "response_type",
+							"value": "code"
+						},
+						{
+							"key": "scope",
+							"value": "openid email phone"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client_id}}"
+						},
+						{
+							"key": "state",
+							"value": "STATE"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https%3A%2F%2Fprpp-alpha.labs.zaizicloud.net%2Fredirect"
+						},
+						{
+							"key": "nonce",
+							"value": "aEwkamaos5Be"
+						},
+						{
+							"key": "vtr",
+							"value": "[\"Cl.Cm\"]",
+							"disabled": true
+						},
+						{
+							"key": "ui_locales",
+							"value": "en"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Discovery",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://oidc.integration.account.gov.uk/.well-known/openid-configuration",
+					"protocol": "https",
+					"host": [
+						"oidc",
+						"integration",
+						"account",
+						"gov",
+						"uk"
+					],
+					"path": [
+						".well-known",
+						"openid-configuration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{logout_endpoint}}",
+					"host": [
+						"{{logout_endpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "User Info",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Token Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{token_endpoint}}?grant_type=authorization_code&redirect_uri&client_assertion_type&client_assertion&code",
+					"host": [
+						"{{token_endpoint}}"
+					],
+					"query": [
+						{
+							"key": "grant_type",
+							"value": "authorization_code"
+						},
+						{
+							"key": "redirect_uri",
+							"value": null
+						},
+						{
+							"key": "client_assertion_type",
+							"value": null
+						},
+						{
+							"key": "client_assertion",
+							"value": null
+						},
+						{
+							"key": "code",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Passport Claim",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Driving License Claim",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,30 @@
+version: 0.2
+
+env:
+  variables:
+    SAUCE_VERSION: "4.5.4"
+    SAUCE_USERNAME: "Tapestry"
+    REPOSITORY_URI: "376913455284.dkr.ecr.eu-west-1.amazonaws.com/cfcp-idam-server"
+    GIT_USER: "cyber-zaizi"
+    SE_PORTS: "8000 8001"
+  parameter-store:
+    SAUCE_ACCESS_KEY: "/cfgc/global/saurcelabs_access_key"
+    GIT_PASSWORD: "cyber-zaizi-token"
+    SLACK_CHANNEL: "/cfgc/global/slack-web-hook"
+phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+    commands:
+      - wget https://saucelabs.com/downloads/sc-$SAUCE_VERSION-linux.tar.gz -O sc.tar.gz
+      - tar -zxvf sc.tar.gz
+      - mv sc-$SAUCE_VERSION-linux /opt/sc
+      - pip3 install boto3
+  build:
+    commands:
+      - /opt/sc/bin/sc &
+      - cd nightwatch
+  post_build:
+    commands:
+      - echo Running E2E Tests
+      - echo API tests to be written 

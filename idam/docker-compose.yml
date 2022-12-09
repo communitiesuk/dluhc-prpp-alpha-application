@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  idam:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: root
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      WORKERS: 1
+      LOG_FOLDER: /var/log/idam
+      ACCESS_LOG: '-'
+      ERROR_LOG: '-'
+      LOG_LEVEL: 'DEBUG'
+      AWS_ACCESS_KEY_ID: '${AWS_ACCESS_KEY_ID}'
+      AWS_SECRET_ACCESS_KEY: '${AWS_SECRET_ACCESS_KEY}'
+      JWT_SECRET_KEY: '${JWT_SECRET_KEY}'
+      USER_POOL_ID: '${USER_POOL_ID}'
+      CLIENT_ID: '${CLIENT_ID}'
+      CLIENT_ID_NO_SECRET: '${CLIENT_ID_NO_SECRET}'
+      CLIENT_SECRET: '${CLIENT_SECRET}'
+      AWS_REGION_NAME: '${AWS_REGION_NAME}'
+      COGNITO_AUTH_DOMAIN: '${COGNITO_AUTH_DOMAIN}'
+      SQLALCHEMY_DATABASE_URI: 'sqlite:///data.db'
+      REDIS_URL: redis://idam_cache:6379
+      JSON_SORT_KEYS: 'False'
+      APP_VERSION: '0.0.1'
+      OPENAPI_VERSION: '3.0.3'
+      TITLE: 'IDAM API'
+      AWS_AUTH_URL: 'https://idam.auth.eu-west-1.amazoncognito.com'
+    volumes:
+      - .data/idam/logs:/var/log/idam
+      - .:/opt/idam
+    networks:
+        default:
+        internal:
+
+  idam_cache:
+    image: redis:4
+    restart: always
+    volumes:
+    - .data/redis:/data
+    networks:
+        internal:
+
+networks:
+    default:
+    internal:
+        internal: true
