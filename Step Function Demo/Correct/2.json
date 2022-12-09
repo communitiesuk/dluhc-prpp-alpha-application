@@ -1,0 +1,34 @@
+{
+    "statusCode": 200,
+    "job_id": "b89d4d16c1087f4cf2180759ba1cfa974a57d4513560b715fc6882d19fc11277",
+    "job_tag": "ea126e7e-550d-4e7a-88d2-daca3fac314a",
+    "document_type": "gas",
+    "features": [
+      "number of appliances tested",
+      "gas tightness test satisfactory?",
+      "equipotential bonding satisfactory",
+      "gas safe",
+      "emergency control valve accessible?"
+    ],
+    "postcodes": [
+      "CV3 4BP",
+      "PH1 3GH"
+    ],
+    "addresses": [
+      "18 the avenue, coventry, midlands, cv3 4bp"
+    ],
+    "feature_score": {
+      "total": 100,
+      "max": 150,
+      "overall": 66.66666666666666
+    },
+    "address_score": [
+      {
+        "address": "18 the avenue, coventry, midlands, cv3 4bp",
+        "score": 0
+      }
+    ],
+    "dates": [],
+    "valid_date": null,
+    "valid_serial": false
+  }

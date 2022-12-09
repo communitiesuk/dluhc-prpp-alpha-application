@@ -1,7 +1,0 @@
-FLASK_ENV=test
-APP_VERSION="0.0.1"
-OPENAPI_VERSION="3.0.3"
-JSON_SORT_KEYS=False
-TITLE="CyberFirst IDAM Test API"
-JWT_SECRET_KEY=secret
-IDAM_UI_BASE_URL="http://localhost:3000"

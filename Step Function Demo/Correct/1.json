@@ -1,0 +1,18 @@
+{
+    "statusCode": 200,
+    "job_id": "20c547e7aee044ad2ef2e89522e0bad3e4963242303aee79ba45818541732fd9",
+    "job_tag": "ea1a8955-e968-4f4f-aad6-d61ca8db145a",
+    "document_type": "gas",
+    "features": [],
+    "postcodes": [],
+    "addresses": [],
+    "feature_score": {
+      "total": 10,
+      "max": 50,
+      "overall": 20
+    },
+    "address_score": [],
+    "dates": [],
+    "valid_date": null,
+    "valid_serial": false
+}

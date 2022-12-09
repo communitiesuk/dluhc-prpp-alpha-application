@@ -1,0 +1,24 @@
+{
+    "statusCode": 200,
+    "job_id": "e5d9d6dbd50bd7e62446269aeee1dd587e92c6e4b2a15aa305d233290da8ae2f",
+    "job_tag": "72d31fe5-2a27-42d4-bd41-47cc2f753af3",
+    "document_type": "gas",
+    "features": [
+      "gas pipework visual condition satisfactory",
+      "engineer id no",
+      "gas pipework tightness tested",
+      "gas safe",
+      "presence of protective bonding"
+    ],
+    "postcodes": [],
+    "addresses": [],
+    "feature_score": {
+      "total": 100,
+      "max": 150,
+      "overall": 66.66666666666666
+    },
+    "address_score": [],
+    "dates": [],
+    "valid_date": null,
+    "valid_serial": false
+  }

@@ -1,0 +1,36 @@
+{
+    "statusCode": 200,
+    "job_id": "2b54796f6fad1727b4fac1f44f3b466d4784e023866965d34c174968ec7c468e",
+    "job_tag": "b4661bea-8441-426f-b9fb-98cab5bee752",
+    "document_type": "gas",
+    "features": [
+      "satisfactory visual inspection of gas installation pipework",
+      "gas safe reg no",
+      "is the main protective equipotential bonding satisfactory",
+      "gas safe",
+      "is the emergency control accessible",
+      "co alarm fitted and working",
+      "outcome of gas tightness test"
+    ],
+    "postcodes": [
+      "LU7 9EP",
+      "WD25 9PD"
+    ],
+    "addresses": [
+      "lu7 9ep"
+    ],
+    "feature_score": {
+      "total": 100,
+      "max": 150,
+      "overall": 66.66666666666666
+    },
+    "address_score": [
+      {
+        "address": "lu7 9ep",
+        "score": 0
+      }
+    ],
+    "dates": [],
+    "valid_date": null,
+    "valid_serial": false
+  }
