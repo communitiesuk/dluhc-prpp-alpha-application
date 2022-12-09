@@ -71,15 +71,13 @@ class Authenticator:
             else:  # LOCAL_DEV is set
                 self.session = boto3.session.Session(
                     aws_access_key_id=os.getenv(
-                        "AWS_ACCESS_KEY_ID", "ASIAT5K3PMBYCULWOV6I"
+                        "AWS_ACCESS_KEY_ID"
                     ),
                     aws_secret_access_key=os.getenv(
                         "AWS_SECRET_ACCESS_KEY",
-                        "MbP5SRj29q+ccQKkW0cnfwMgOuTJlHA5ZH2IG7uD",
                     ),
                     aws_session_token=os.getenv(
                         "AWS_SESSION_TOKEN",
-                        "FwoGZXIvYXdzECQaDPOfskCPqqMvxWU81iK5AX8OPOseWAECEtICefvRodmH+CtNZBL/MEJcdsG1gUR7fYkPsIKLe1eDaK96kc1CV6XVy643WRhh8HERKq957NoDY3yEwkH+nRf4OzEFDS5Y3PtisbEVV/41Cn5i1Xlj+LvSv/4h8V1L9UauNceulfMGpuSQZrs+MrlneSqUBfOLQI3neZqDSFrAvauVnrTtQ+t0tRe+gW3wJJGRFtsQ1SuJk9ncCRj5j6EqPmTvhvZ442+MTDxU3zMsKP3f1JsGMi3eBEP1Ma/kcVe4sszVdHfnjLcz7ybMQRG2lkaXYnHf4fiw/hppVk/yo2NYyQk=",
                     ),
                     region_name=os.getenv("AWS_REGION_NAME", "eu-west-2"),
                 )
