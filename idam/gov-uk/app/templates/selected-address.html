@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+{%- from 'govuk_frontend_jinja/components/input/macro.html' import govukInput -%}
+
+
+<!-- {%- from 'govuk_frontend_jinja/components/accordion/macro.html' import govukAccordion -%}
+{%- from 'govuk_frontend_jinja/components/back-link/macro.html' import govukBackLink -%}
+{%- from 'govuk_frontend_jinja/components/breadcrumbs/macro.html' import govukBreadcrumbs -%}
+{%- from 'govuk_frontend_jinja/components/button/macro.html' import govukButton -%}
+{%- from 'govuk_frontend_jinja/components/character-count/macro.html' import govukCharacterCount -%}
+{%- from 'govuk_frontend_jinja/components/checkboxes/macro.html' import govukCheckboxes -%}
+{%- from 'govuk_frontend_jinja/components/cookie-banner/macro.html' import govukCookieBanner -%}
+{%- from 'govuk_frontend_jinja/components/date-input/macro.html' import govukDateInput -%}
+{%- from 'govuk_frontend_jinja/components/details/macro.html' import govukDetails -%}
+{%- from 'govuk_frontend_jinja/components/error-message/macro.html' import govukErrorMessage -%}
+{%- from 'govuk_frontend_jinja/components/error-summary/macro.html' import govukErrorSummary -%}
+{%- from 'govuk_frontend_jinja/components/fieldset/macro.html' import govukFieldset -%}
+{%- from 'govuk_frontend_jinja/components/file-upload/macro.html' import govukFileUpload -%}
+{%- from 'govuk_frontend_jinja/components/footer/macro.html' import govukFooter -%}
+{%- from 'govuk_frontend_jinja/components/header/macro.html' import govukHeader -%}
+{%- from 'govuk_frontend_jinja/components/hint/macro.html' import govukHint -%}
+{%- from 'govuk_frontend_jinja/components/input/macro.html' import govukInput -%}
+{%- from 'govuk_frontend_jinja/components/inset-text/macro.html' import govukInsetText -%}
+{%- from 'govuk_frontend_jinja/components/label/macro.html' import govukLabel -%}
+{%- from 'govuk_frontend_jinja/components/notification-banner/macro.html' import govukNotificationBanner -%}
+{%- from 'govuk_frontend_jinja/components/pagination/macro.html' import govukPagination -%}
+{%- from 'govuk_frontend_jinja/components/panel/macro.html' import govukPanel -%}
+{%- from 'govuk_frontend_jinja/components/phase-banner/macro.html' import govukPhaseBanner -%}
+{%- from 'govuk_frontend_jinja/components/radios/macro.html' import govukRadios -%}
+{%- from 'govuk_frontend_jinja/components/select/macro.html' import govukSelect -%}
+{%- from 'govuk_frontend_jinja/components/skip-link/macro.html' import govukSkipLink -%}
+{%- from 'govuk_frontend_jinja/components/summary-list/macro.html' import govukSummaryList -%}
+{%- from 'govuk_frontend_jinja/components/table/macro.html' import govukTable -%}
+{%- from 'govuk_frontend_jinja/components/tabs/macro.html' import govukTabs -%}
+{%- from 'govuk_frontend_jinja/components/tag/macro.html' import govukTag -%}
+{%- from 'govuk_frontend_jinja/components/textarea/macro.html' import govukTextarea -%}
+{%- from 'govuk_frontend_jinja/components/warning-text/macro.html' import govukWarningText -%} -->
+
+{% block pageTitle %}
+
+Privately Rented Property Portal – GOV.UK
+
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+'text': "Back",
+'href': url_for('index')
+}) }}
+{% endblock %}
+
+{% block content %}
+<span class="govuk-caption-xl">Manage your properties.</span>
+<h1 class="govuk-heading-xl">Selected Address</h1>
+
+{% if epc %}
+<form action="/view-epc" method="post" autocomplete="off">
+  <input type="hidden">
+  <!-- <button class="govuk-button" data-module="govuk-button" type="submit">
+    View EPC
+  </button> -->
+</form>
+<div class="govuk-inset-text">EPC Available - {{ epc }}</div>
+{% endif %}
+
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> Address </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.ADDRESS }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> UPRN </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.UPRN }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> UDPRN </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.UDPRN }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> BUILDING NUMBER </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.UPRN }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> THOROUGHFARE NAME </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.THOROUGHFARE_NAME }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> POST TOWN </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.POST_TOWN }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> RPC </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.RPC }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> X_COORDINATE </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.X_COORDINATE }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> Y_COORDINATE </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.Y_COORDINATE }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> STATUS </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.STATUS }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> LOGICAL_STATUS_CODE </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.LOGICAL_STATUS_CODE }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> CLASSIFICATION_CODE </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.CLASSIFICATION_CODE }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> CLASSIFICATION_CODE </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.CLASSIFICATION_CODE }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> CLASSIFICATION_CODE_DESCRIPTION </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.CLASSIFICATION_CODE_DESCRIPTION }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> LOCAL_CUSTODIAN_CODE </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.LOCAL_CUSTODIAN_CODE }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> LOCAL_CUSTODIAN_CODE_DESCRIPTION </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.LOCAL_CUSTODIAN_CODE_DESCRIPTION }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> COUNTRY_CODE </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.COUNTRY_CODE }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> COUNTRY_CODE_DESCRIPTION </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.COUNTRY_CODE_DESCRIPTION }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> POSTAL_ADDRESS_CODE </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.POSTAL_ADDRESS_CODE }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> POSTAL_ADDRESS_CODE_DESCRIPTION </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.POSTAL_ADDRESS_CODE_DESCRIPTION }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> BLPU_STATE_CODE </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.BLPU_STATE_CODE }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> BLPU_STATE_CODE_DESCRIPTION </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.BLPU_STATE_CODE_DESCRIPTION }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> TOPOGRAPHY_LAYER_TOID </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.TOPOGRAPHY_LAYER_TOID }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> LAST_UPDATE_DATE </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.LAST_UPDATE_DATE }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> ENTRY_DATE </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.ENTRY_DATE }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> BLPU_STATE_DATE </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.BLPU_STATE_DATE }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> LANGUAGE </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.LANGUAGE }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> MATCH </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.MATCH }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> MATCH_DESCRIPTION </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.MATCH_DESCRIPTION }} </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"> DELIVERY_POINT_SUFFIX </dt>
+      <dd class="govuk-summary-list__value"> {{ address.DPA.DELIVERY_POINT_SUFFIX }} </dd>
+    </div>
+  </dl>
+  </div>
+</div>
+
+
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+{% for fixture in fixtures.fixtures if fixture.hidden == False %}
+<!-- <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 id="{{fixture.name | replace(' ', '-')}}" class="govuk-heading-l">{{fixture.name | capitalize}}</h2>
+
+
+    {{ govukDetails({
+    'summaryText': "Jinja macro options",
+    'text': fixture.options
+    })}}
+
+    {{ govukDetails({
+    'summaryText': "HTML",
+    'text': fixture.html
+    })}}
+  </div>
+</div> -->
+{% endfor %}
+{% endblock %}

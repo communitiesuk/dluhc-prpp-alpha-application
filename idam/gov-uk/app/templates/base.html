@@ -1,0 +1,74 @@
+{% extends 'govuk_frontend_jinja/template.html' %}
+
+{% set assetPath = url_for('static', filename='').rstrip('/') %}
+
+{% block pageTitle %}Privately Rented Property Portal{% endblock %}
+
+{% block head %}
+  <meta name="description" content="Privately Rented Property Portal">
+  <meta name="keywords" content="GOV.UK, govuk, gov, government, uk, frontend, ui, user interface, jinja, python, flask, port, template, templating, macro, component, design system, html, demo, example">
+  <meta name="author" content="HM Land Registry">
+  <!--[if gt IE 8]><!--><link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='govuk-frontend-4.2.0.min.css') }}" /><!--<![endif]-->
+  <!--[if IE 8]><link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='govuk-frontend-ie8-4.2.0.min.css') }}" /><![endif]-->
+{% endblock %}
+
+{% block header %}
+  {{ govukHeader({
+    'homepageUrl': url_for('index'),
+    'serviceName': "Privately Rented Property Portal",
+    'serviceUrl': url_for('index')
+  }) }}
+{% endblock %}
+
+{% block footer %}
+  {{ govukFooter({
+    'navigation': [
+      {
+        'title': 'This demo uses',
+        'columns': 1,
+        'items': [
+            {
+              'href': 'https://github.com/alphagov/govuk-frontend/releases/tag/v4.2.0',
+              'text': 'GOV.UK Frontend v4.2.0'
+            },
+            {
+              'href': 'https://github.com/LandRegistry/govuk-frontend-jinja/releases/tag/2.3.0',
+              'text': 'GOV.UK Frontend Jinja v2.3.0'
+            }
+          ]
+      },
+      {
+        'title': 'More information',
+        'columns': 1,
+        'items': [
+            {
+              'href': "https://github.com/LandRegistry/govuk-frontend-jinja",
+              'text': "Package source code"
+            },
+            {
+              'href': "https://github.com/LandRegistry/govuk-frontend-jinja/actions",
+              'text': "Build pipeline"
+            },
+            {
+              'href': "https://pypi.org/project/govuk-frontend-jinja/",
+              'text': "PyPI package"
+            },
+            {
+              'href': "https://github.com/LandRegistry/govuk-frontend-jinja-demo",
+              'text': "Demo source code"
+            }
+          ]
+      }
+    ],
+    'meta': {
+      'html': 'Built by <a href="https://www.gov.uk/government/organisations/land-registry" class="govuk-footer__link">HM Land Registry</a> and <a href="https://github.com/LandRegistry/govuk-frontend-jinja/graphs/contributors" class="govuk-footer__link">Contributors</a>'
+    }
+  }) }}
+{% endblock %}
+
+{% block bodyEnd %}
+  <!--[if gt IE 8]><!-->
+  <script src="{{ url_for('static', filename='govuk-frontend-4.2.0.min.js') }}"> </script>
+  <script>window.GOVUKFrontend.initAll()</script>
+  <!--<![endif]-->
+{% endblock %}
