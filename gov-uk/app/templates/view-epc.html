@@ -53,129 +53,69 @@ Privately Rented Property Portal – GOV.UK
 <span class="govuk-caption-xl">Manage your properties.</span>
 <h1 class="govuk-heading-xl">Selected Address - EPC</h1>
 
-{% if address %}
+{% if epc_data %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <dl class="govuk-summary-list">
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key"> Address </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.ADDRESS }} </dd>
+      <dd class="govuk-summary-list__value"> {{ epc_data.assessment.address.addressLine1 }} </dd>
     </div>
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> UPRN </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.UPRN }} </dd>
+      <dt class="govuk-summary-list__key"> Town </dt>
+      <dd class="govuk-summary-list__value"> {{ epc_data.assessment.address.town }} </dd>
     </div>
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> UDPRN </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.UDPRN }} </dd>
+      <dt class="govuk-summary-list__key"> Postcode </dt>
+      <dd class="govuk-summary-list__value"> {{ epc_data.assessment.address.postcode}} </dd>
     </div>
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> BUILDING NUMBER </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.UPRN }} </dd>
+      <dt class="govuk-summary-list__key"> Lodgement Date </dt>
+      <dd class="govuk-summary-list__value"> {{ epc_data.assessment.lodgementDate }} </dd>
     </div>
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> THOROUGHFARE NAME </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.THOROUGHFARE_NAME }} </dd>
+      <dt class="govuk-summary-list__key"> Is Latests Assessment for Address </dt>
+      <dd class="govuk-summary-list__value"> {{ epc_data.assessment.isLatestAssessmentForAddress }} </dd>
     </div>
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> POST TOWN </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.POST_TOWN }} </dd>
+      <dt class="govuk-summary-list__key"> Property Type </dt>
+      <dd class="govuk-summary-list__value"> {{ epc_data.assessment.propertyType }} </dd>
     </div>
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> RPC </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.RPC }} </dd>
+      <dt class="govuk-summary-list__key"> Built From </dt>
+      <dd class="govuk-summary-list__value"> {{ epc_data.assessment.builtForm  }} </dd>
     </div>
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> X_COORDINATE </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.X_COORDINATE }} </dd>
+      <dt class="govuk-summary-list__key"> Property Age Band </dt>
+      <dd class="govuk-summary-list__value"> {{ epc_data.assessment.propertyAgeBand  }} </dd>
     </div>
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> Y_COORDINATE </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.Y_COORDINATE }} </dd>
+      <dt class="govuk-summary-list__key"> Walls Description </dt>
+      <dd class="govuk-summary-list__value"> {{ epc_data.assessment.wallsDescription.0  }} </dd>
     </div>
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> STATUS </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.STATUS }} </dd>
+      <dt class="govuk-summary-list__key"> Roof Description </dt>
+      <dd class="govuk-summary-list__value"> {{ epc_data.assessment.roofDescription.0  }} </dd>
     </div>
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> LOGICAL_STATUS_CODE </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.LOGICAL_STATUS_CODE }} </dd>
+      <dt class="govuk-summary-list__key"> Window Description </dt>
+      <dd class="govuk-summary-list__value"> {{ epc_data.assessment.windowsDescription.0  }} </dd>
     </div>
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> CLASSIFICATION_CODE </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.CLASSIFICATION_CODE }} </dd>
+      <dt class="govuk-summary-list__key"> Main Fuel Type </dt>
+      <dd class="govuk-summary-list__value"> {{ epc_data.assessment.mainFuelType  }} </dd>
     </div>
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> CLASSIFICATION_CODE </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.CLASSIFICATION_CODE }} </dd>
+      <dt class="govuk-summary-list__key"> Total Floor Area </dt>
+      <dd class="govuk-summary-list__value"> {{ epc_data.assessment.totalFloorArea  }} </dd>
     </div>
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> CLASSIFICATION_CODE_DESCRIPTION </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.CLASSIFICATION_CODE_DESCRIPTION }} </dd>
+      <dt class="govuk-summary-list__key"> Has Main Gas </dt>
+      <dd class="govuk-summary-list__value"> {{ epc_data.assessment.hasMainsGas }} </dd>
     </div>
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> LOCAL_CUSTODIAN_CODE </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.LOCAL_CUSTODIAN_CODE }} </dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> LOCAL_CUSTODIAN_CODE_DESCRIPTION </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.LOCAL_CUSTODIAN_CODE_DESCRIPTION }} </dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> COUNTRY_CODE </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.COUNTRY_CODE }} </dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> COUNTRY_CODE_DESCRIPTION </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.COUNTRY_CODE_DESCRIPTION }} </dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> POSTAL_ADDRESS_CODE </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.POSTAL_ADDRESS_CODE }} </dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> POSTAL_ADDRESS_CODE_DESCRIPTION </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.POSTAL_ADDRESS_CODE_DESCRIPTION }} </dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> BLPU_STATE_CODE </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.BLPU_STATE_CODE }} </dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> BLPU_STATE_CODE_DESCRIPTION </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.BLPU_STATE_CODE_DESCRIPTION }} </dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> TOPOGRAPHY_LAYER_TOID </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.TOPOGRAPHY_LAYER_TOID }} </dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> LAST_UPDATE_DATE </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.LAST_UPDATE_DATE }} </dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> ENTRY_DATE </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.ENTRY_DATE }} </dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> BLPU_STATE_DATE </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.BLPU_STATE_DATE }} </dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> LANGUAGE </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.LANGUAGE }} </dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> MATCH </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.MATCH }} </dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> MATCH_DESCRIPTION </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.MATCH_DESCRIPTION }} </dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"> DELIVERY_POINT_SUFFIX </dt>
-      <dd class="govuk-summary-list__value"> {{ address.DPA.DELIVERY_POINT_SUFFIX }} </dd>
+      <dt class="govuk-summary-list__key"> Current Energy Efficiency Rating </dt>
+      <dd class="govuk-summary-list__value"> {{ epc_data.assessment.currentEnergyEfficiencyRating }} </dd>
     </div>
   </dl>
   </div>

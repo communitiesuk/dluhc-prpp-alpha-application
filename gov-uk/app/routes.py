@@ -323,44 +323,22 @@ def view_epc():
 
     print("EPC View")
     try:
-        pass
+        # send get request to retrieve epc assessment
+        epc_id = session["epc_assessment"]
+        url = f"https://api.epb-staging.digital.communities.gov.uk/api/heat-pump-check/assessments/{epc_id}"
+        headers = {
+            "Authorization": "Bearer " + session.get("token"),
+        }
+        payload = {}
+        response = requests.request("GET", url, headers=headers, data=payload)
+        print(response.json())
+        epc_data = response.json().get("data")
     except Exception as e:
         print("Error retrieving epc", e)
 
-    epc_data = {
-        "data": {
-            "assessment": {
-                "address": {
-                    "addressLine1": "22 Acacia Avenue",
-                    "addressLine2": "Upper Wellgood",
-                    "addressLine3": "",
-                    "addressLine4": "",
-                    "town": "Fulchester",
-                    "postcode": "FL23 4JA",
-                },
-                "lodgementDate": "2020-02-29",
-                "isLatestAssessmentForAddress": True,
-                "propertyType": "Mid-floor flat",
-                "builtForm": "End-Terrace",
-                "propertyAgeBand": "2007-2011",
-                "totalFloorArea": 171,
-                "wallsDescription": [
-                    "Solid brick, as built, no insulation",
-                    "Cavity wall, as built, insulated (assumed)",
-                ],
-                "roofDescription": [
-                    "Pitched, 250 mm loft insulation",
-                    "Pitched, limited insulation (assumed)",
-                ],
-                "windowsDescription": ["Fully double glazed"],
-                "mainFuelType": "Natural Gas",
-                "hasMainsGas": True,
-                "currentEnergyEfficiencyRating": 62,
-            }
-        }
-    }
-
+    
     return render_template("view-epc.html", fixtures=fixtures, epc_data=epc_data)
+
 
 
 # TBD
