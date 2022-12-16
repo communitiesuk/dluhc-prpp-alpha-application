@@ -5,6 +5,7 @@ import jwt
 import requests
 import random
 import uuid
+import urllib
 
 from app.src.common.utils import idam_decode, idam_encode
 
@@ -209,6 +210,10 @@ def gov_redirect():
         #     "iat": int(time.time()),
         # }
 
+        # with open("private_key.pem", "rb") as private_key:
+        #     key_data = private_key.read()
+        #     token = jwt.encode(payload=payload, key=key_data, algorithm="RS256")
+
         token = jwt.encode(
             {
                 "aud": "https://oidc.integration.account.gov.uk/token",
@@ -226,7 +231,7 @@ def gov_redirect():
 
         host = GOV_UK_TOKEN_URL
         grant_type = "authorization_code"
-        redirect_uri = PRPP_REDIRECT_URL
+        redirect_uri = urllib.parse.quote(PRPP_REDIRECT_URL)
         client_assertion = token
         client_assertion_type = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
 
@@ -298,7 +303,8 @@ def gov_login():
         scope = "openid"
         client_id = GOV_UK_CLIENT_ID
         state = "STATE"
-        redirect_uri = GOV_UK_REDIRECT_URL
+        redirect_uri = urllib.parse.quote(PRPP_REDIRECT_URL)
+        
         nonce = utils.generate_nonce()
         ui_locales = GOV_UK_UI_LOCALES
 
@@ -506,57 +512,60 @@ def cognito_register():
     return render_template("register.html", fixtures=fixtures)
 
 
-@app.route("/token")
-def token():
-    component = "header"
-    try:
-        with open("govuk_components/{}/fixtures.json".format(component)) as json_file:
-            fixtures = json.load(json_file)
-    except FileNotFoundError as e:
-        print(e)
-        raise NotFound
 
-    payload = {
-        "aud": "https://oidc.integration.account.gov.uk/token",
-        "iss": GOV_UK_CLIENT_ID,
-        "sub": GOV_UK_CLIENT_ID,
-        "exp": utils.generate_nonce(),
-        "jti": int(time.time() + 300),
-        "iat": int(time.time()),
-    }
 
-    token = jwt.encode(
-        {
-            "aud": "https://oidc.integration.account.gov.uk/token",
-            "iss": GOV_UK_CLIENT_ID,
-            "sub": GOV_UK_CLIENT_ID,
-            "exp": int(time.time() + 300),
-            "jti": utils.generate_nonce(),
-            "iat": int(time.time()),
-        },
-        key=private_key,
-        algorithm="RS256",
-    )
+# @app.route("/token")
+# def token():
+#     component = "header"
+#     try:
+#         with open("govuk_components/{}/fixtures.json".format(component)) as json_file:
+#             fixtures = json.load(json_file)
+#     except FileNotFoundError as e:
+#         print(e)
+#         raise NotFound
 
-    print("TOKEN", token)
+#     payload = {
+#         "aud": "https://oidc.integration.account.gov.uk/token",
+#         "iss": GOV_UK_CLIENT_ID,
+#         "sub": GOV_UK_CLIENT_ID,
+#         "exp": utils.generate_nonce(),
+#         "jti": int(time.time() + 300),
+#         "iat": int(time.time()),
+#     }
 
-    try:
-        host = GOV_UK_TOKEN_URL
-        grant_type = "authorization_code"
-        redirect_uri = session["redirect_uri"]
-        client_assertion = token
-        client_assertion_type = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
-        code = session["authorization_code"]
+#     token = jwt.encode(
+#         {
+#             "aud": "https://oidc.integration.account.gov.uk/token",
+#             "iss": GOV_UK_CLIENT_ID,
+#             "sub": GOV_UK_CLIENT_ID,
+#             "exp": int(time.time() + 300),
+#             "jti": utils.generate_nonce(),
+#             "iat": int(time.time()),
+#         },
+#         key=private_key,
+#         algorithm="RS256",
+#     )
 
-        # TBD
-        return redirect(
-            f"{host}?response_type={response_type}&client_id={client_id}&scope={scope}&state={state}&redirect_uri={redirect_uri}&nonce={nonce}&ui_locales={ui_locales}",
-            code=302,
-        )
-    except Exception as e:
-        print("Error authorizing", e)
+#     print("TOKEN", token)
 
-    return render_template("register.html", fixtures=fixtures)
+#     try:
+#         host = GOV_UK_TOKEN_URL
+#         grant_type = "authorization_code"
+#         redirect_uri = session["redirect_uri"]
+#         client_assertion = token
+#         client_assertion_type = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
+#         code = session["authorization_code"]
+
+#         # TBD
+#         url = f"{host}?grant_type=authorization_code"
+#         return redirect(
+#             f"{host}?response_type={response_type}&client_id={client_id}&scope={scope}&state={state}&redirect_uri={redirect_uri}&nonce={nonce}&ui_locales={ui_locales}",
+#             code=302,
+#         )
+#     except Exception as e:
+#         print("Error authorizing", e)
+
+#     return render_template("register.html", fixtures=fixtures)
 
 
 @app.route("/reset-password")
@@ -754,6 +763,7 @@ def address_select():
                 epc = response.json()["data"]["addresses"][0]["existingAssessments"][0][
                     "assessmentId"
                 ]
+                session["epc_assessment"] = epc
 
         except Exception as e:
             print("Exception EPC: ", e)
